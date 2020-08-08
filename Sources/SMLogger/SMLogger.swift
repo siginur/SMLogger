@@ -1,6 +1,6 @@
 import Foundation
 
-public class ASLogger {
+public class SMLogger {
     
     static let formatter: DateFormatter = {
         let f = DateFormatter()
@@ -40,7 +40,7 @@ public class ASLogger {
     
 }
 
-public extension ASLogger {
+public extension SMLogger {
     enum Level: String {
         case error
         case warning
