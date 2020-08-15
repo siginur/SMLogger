@@ -18,6 +18,10 @@ public class SMLogger {
         identifier = fileName
     }
     
+    public func error(_ error: Error, functionName: String = #function, line: Int = #line) {
+        log(.error, message: error.localizedDescription, functionName: functionName, line: line)
+    }
+    
     public func error(_ message: String, functionName: String = #function, line: Int = #line) {
         log(.error, message: message, functionName: functionName, line: line)
     }
