@@ -8,7 +8,7 @@
 import Foundation
 
 public protocol LogMessageStrategy {
-    func generateLog(level: LogLevel, message: String, date: Date, fileName: String, functionName: String, line: Int) -> String
+    func generateLog(severity: LogSeverity, message: String, date: Date, fileName: String, functionName: String, line: Int) -> String
 }
 
 public protocol LogOutputStrategy {
@@ -18,20 +18,22 @@ public protocol LogOutputStrategy {
 public struct LogStrategy {
     public let message: LogMessageStrategy
     public let output: LogOutputStrategy
+    public let validSeverities: Set<LogSeverity>
     
-    public init(message: LogMessageStrategy, output: LogOutputStrategy) {
+    public init(message: LogMessageStrategy, output: LogOutputStrategy, severityFilter: LogSeverityFilter = .all) {
         self.message = message
         self.output = output
+        self.validSeverities = severityFilter.validSeverities
     }
     
-    func perform(level: LogLevel, message: String, date: Date, fileName: String, functionName: String, line: Int) {
-        let log = self.message.generateLog(level: level, message: message, date: date, fileName: fileName, functionName: functionName, line: line)
+    func perform(severity: LogSeverity, message: String, date: Date, fileName: String, functionName: String, line: Int) {
+        let log = self.message.generateLog(severity: severity, message: message, date: date, fileName: fileName, functionName: functionName, line: line)
         output.write(log)
     }
 }
 
 public extension LogStrategy {
-    static let `default` = LogStrategy(message: TextLogMessageStrategy.default, output: ConsoleLogOutputStrategy())
+    static let `default` = LogStrategy(message: TextLogMessageStrategy.default, output: ConsoleLogOutputStrategy(), severityFilter: .all)
 }
 
 struct LogStrategyGroup {
@@ -41,26 +43,26 @@ struct LogStrategyGroup {
         self.strategies = strategies
     }
     
-    init(messageStrategies: [LogMessageStrategy], outputStrategies: [LogOutputStrategy]) {
+    init(messageStrategies: [LogMessageStrategy], outputStrategies: [LogOutputStrategy], severityFilter: LogSeverityFilter) {
         var strategies = [LogStrategy]()
         for message in messageStrategies {
             for output in outputStrategies {
-                strategies.append(LogStrategy(message: message, output: output))
+                strategies.append(LogStrategy(message: message, output: output, severityFilter: severityFilter))
             }
         }
         self.init(strategies: strategies)
     }
     
-    init(messageStrategies: [LogMessageStrategy], outputStrategy: LogOutputStrategy) {
-        self.init(messageStrategies: messageStrategies, outputStrategies: [outputStrategy])
+    init(messageStrategies: [LogMessageStrategy], outputStrategy: LogOutputStrategy, severityFilter: LogSeverityFilter) {
+        self.init(messageStrategies: messageStrategies, outputStrategies: [outputStrategy], severityFilter: severityFilter)
     }
     
-    init(messageStrategy: LogMessageStrategy, outputStrategies: [LogOutputStrategy]) {
-        self.init(messageStrategies: [messageStrategy], outputStrategies: outputStrategies)
+    init(messageStrategy: LogMessageStrategy, outputStrategies: [LogOutputStrategy], severityFilter: LogSeverityFilter) {
+        self.init(messageStrategies: [messageStrategy], outputStrategies: outputStrategies, severityFilter: severityFilter)
     }
     
-    init(messageStrategy: LogMessageStrategy, outputStrategy: LogOutputStrategy) {
-        self.init(strategies: [LogStrategy(message: messageStrategy, output: outputStrategy)])
+    init(messageStrategy: LogMessageStrategy, outputStrategy: LogOutputStrategy, severityFilter: LogSeverityFilter) {
+        self.init(strategies: [LogStrategy(message: messageStrategy, output: outputStrategy, severityFilter: severityFilter)])
     }
     
 }

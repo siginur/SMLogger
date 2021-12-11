@@ -15,8 +15,8 @@ public final class TextLogMessageStrategy: LogMessageStrategy {
         self.format = format
     }
     
-    public final func generateLog(level: LogLevel, message: String, date: Date, fileName: String, functionName: String, line: Int) -> String {
-        return format.message(level: level, message: message, date: date, fileName: fileName, functionName: functionName, line: line)
+    public final func generateLog(severity: LogSeverity, message: String, date: Date, fileName: String, functionName: String, line: Int) -> String {
+        return format.message(severity: severity, message: message, date: date, fileName: fileName, functionName: functionName, line: line)
     }
     
 }

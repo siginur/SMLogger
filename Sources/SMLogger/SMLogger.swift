@@ -76,9 +76,12 @@ public class SMLogger {
         )
     }
     
-    public func log(_ level: LogLevel, message: String, date: Date = Date(), fileName: String = #file, functionName: String = #function, line: Int = #line) {
+    public func log(_ severity: LogSeverity, message: String, date: Date = Date(), fileName: String = #file, functionName: String = #function, line: Int = #line) {
         strategies.forEach { strategy in
-            strategy.perform(level: level, message: message, date: date, fileName: fileName, functionName: functionName, line: line)
+            guard strategy.validSeverities.contains(severity) else {
+                return
+            }
+            strategy.perform(severity: severity, message: message, date: date, fileName: fileName, functionName: functionName, line: line)
         }
     }
     

@@ -22,12 +22,12 @@ public enum LogMessageSegment {
 public typealias LogMessageFormat = [LogMessageSegment]
 
 public extension Array where Element == LogMessageSegment {
-    func message(level: LogLevel, message: String, date: Date, fileName: String, functionName: String, line: Int) -> String {
+    func message(severity: LogSeverity, message: String, date: Date, fileName: String, functionName: String, line: Int) -> String {
         var log: String = ""
         for logPart in self {
             switch logPart {
             case .severity:
-                log += level.rawValue.uppercased()
+                log += severity.rawValue.uppercased()
             case .date(let format):
                 log += format.string(from: date)
             case .filename(let componentsCount):
