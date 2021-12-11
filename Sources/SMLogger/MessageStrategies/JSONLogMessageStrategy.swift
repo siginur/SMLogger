@@ -7,7 +7,7 @@
 
 import Foundation
 
-public final class JSONLogMessageStrategy: LogMessageStrategy {
+open class JSONLogMessageStrategy: LogMessageStrategy {
 
     public let format: [String: LogMessageFormat]
     

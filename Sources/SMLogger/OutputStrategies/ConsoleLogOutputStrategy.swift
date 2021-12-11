@@ -7,11 +7,11 @@
 
 import Foundation
 
-public class ConsoleLogOutputStrategy: LogOutputStrategy {
+open class ConsoleLogOutputStrategy: LogOutputStrategy {
     
     public init() {}
     
-    public func write(_ log: String) {
+    public final func write(_ log: String) {
         print(log)
     }
     

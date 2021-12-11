@@ -7,7 +7,7 @@
 
 import Foundation
 
-public final class TextLogMessageStrategy: LogMessageStrategy {
+open class TextLogMessageStrategy: LogMessageStrategy {
 
     public let format: LogMessageFormat
     

@@ -7,7 +7,7 @@
 
 import Foundation
 
-public class FileLogOutputStrategy: LogOutputStrategy {
+open class FileLogOutputStrategy: LogOutputStrategy {
     
     public enum ArchivePolicy {
         case daily
@@ -53,7 +53,7 @@ public class FileLogOutputStrategy: LogOutputStrategy {
         try preapreLogFile()
     }
     
-    public func write(_ log: String) {
+    public final func write(_ log: String) {
         guard let data = log.data(using: .utf8) else {
             return
         }

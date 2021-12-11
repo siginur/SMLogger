@@ -7,7 +7,7 @@
 
 import Foundation
 
-public class StreamLogOutputStrategy: LogOutputStrategy {
+open class StreamLogOutputStrategy: LogOutputStrategy {
     
     public var stream: TextOutputStream
     
@@ -15,7 +15,7 @@ public class StreamLogOutputStrategy: LogOutputStrategy {
         self.stream = stream
     }
     
-    public func write(_ log: String) {
+    public final func write(_ log: String) {
         stream.write(log)
     }
 }

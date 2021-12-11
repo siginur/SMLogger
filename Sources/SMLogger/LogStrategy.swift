@@ -15,7 +15,7 @@ public protocol LogOutputStrategy {
     func write(_ log: String)
 }
 
-public struct LogStrategy {
+open class LogStrategy {
     public let message: LogMessageStrategy
     public let output: LogOutputStrategy
     public let validSeverities: Set<LogSeverity>
