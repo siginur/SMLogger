@@ -19,6 +19,11 @@ public struct LogStrategy {
     public let message: LogMessageStrategy
     public let output: LogOutputStrategy
     
+    public init(message: LogMessageStrategy, output: LogOutputStrategy) {
+        self.message = message
+        self.output = output
+    }
+    
     func perform(level: LogLevel, message: String, date: Date, fileName: String, functionName: String, line: Int) {
         let log = self.message.generateLog(level: level, message: message, date: date, fileName: fileName, functionName: functionName, line: line)
         output.write(log)
