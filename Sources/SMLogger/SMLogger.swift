@@ -9,17 +9,22 @@ import Foundation
 
 public class SMLogger {
     
-    public let configuration: Configuration
+    private let strategyGroup: LogStrategyGroup
+
+    public var strategies: [LogStrategy] { strategyGroup.strategies }
+
+    public init(strategies: [LogStrategy]) {
+        self.strategyGroup = LogStrategyGroup(strategies: strategies)
+    }
     
-    public init(configuration: Configuration? = nil) {
-        self.configuration = configuration ?? Configuration.default
+    public convenience init(strategy: LogStrategy) {
+        self.init(strategies: [strategy])
     }
     
     public func error(_ error: Error, fileName: String = #file, date: Date = Date(), functionName: String = #function, line: Int = #line) {
         log(
             .error,
             message: error.localizedDescription,
-            configuration: configuration,
             date: date,
             fileName: fileName,
             functionName: functionName,
@@ -31,7 +36,6 @@ public class SMLogger {
         log(
             .error,
             message: message,
-            configuration: configuration,
             date: date,
             fileName: fileName,
             functionName: functionName,
@@ -43,7 +47,6 @@ public class SMLogger {
         log(
             .debug,
             message: message,
-            configuration: configuration,
             date: date,
             fileName: fileName,
             functionName: functionName,
@@ -55,7 +58,6 @@ public class SMLogger {
         log(
             .warning,
             message: message,
-            configuration: configuration,
             date: date,
             fileName: fileName,
             functionName: functionName,
@@ -67,7 +69,6 @@ public class SMLogger {
         log(
             .info,
             message: message,
-            configuration: configuration,
             date: date,
             fileName: fileName,
             functionName: functionName,
@@ -75,43 +76,10 @@ public class SMLogger {
         )
     }
     
-    public func log(_ level: Level, message: String, configuration: Configuration, date: Date = Date(), fileName: String = #file, functionName: String = #function, line: Int = #line) {
-        var log: String = ""
-        for logPart in configuration.format {
-            switch logPart {
-            case .severity:
-                log += level.rawValue.uppercased()
-            case .date(let format):
-                log += format.string(from: date)
-            case .filename(let componentsCount):
-                if componentsCount > 0 {
-                    var pathComponents = (fileName as NSString).pathComponents
-                    if pathComponents.first == "/" {
-                        pathComponents.removeFirst()
-                    }
-                    pathComponents.removeFirst(max(pathComponents.count - componentsCount, 0))
-                    log += pathComponents.joined(separator: "/")
-                }
-                else {
-                    log += fileName
-                }
-            case .line:
-                log += "\(line)"
-            case .method:
-                log += functionName
-            case .message:
-                log += message
-            case .space:
-                log += " "
-            case .spaces(let length):
-                while log.count < length {
-                    log += " "
-                }
-            case .string(let string):
-                log += string
-            }
+    public func log(_ level: LogLevel, message: String, date: Date = Date(), fileName: String = #file, functionName: String = #function, line: Int = #line) {
+        strategies.forEach { strategy in
+            strategy.perform(level: level, message: message, date: date, fileName: fileName, functionName: functionName, line: line)
         }
-        print(log)
     }
     
 }
