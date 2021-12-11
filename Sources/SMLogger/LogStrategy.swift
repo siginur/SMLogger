@@ -43,26 +43,25 @@ struct LogStrategyGroup {
         self.strategies = strategies
     }
     
-    init(messageStrategies: [LogMessageStrategy], outputStrategies: [LogOutputStrategy], severityFilter: LogSeverityFilter) {
+    init(messageStrategy: LogMessageStrategy, outputStrategies: [LogOutputStrategy], severityFilter: LogSeverityFilter) {
         var strategies = [LogStrategy]()
-        for message in messageStrategies {
-            for output in outputStrategies {
-                strategies.append(LogStrategy(message: message, output: output, severityFilter: severityFilter))
-            }
+        for output in outputStrategies {
+            strategies.append(LogStrategy(message: messageStrategy, output: output, severityFilter: severityFilter))
         }
         self.init(strategies: strategies)
     }
     
-    init(messageStrategies: [LogMessageStrategy], outputStrategy: LogOutputStrategy, severityFilter: LogSeverityFilter) {
-        self.init(messageStrategies: messageStrategies, outputStrategies: [outputStrategy], severityFilter: severityFilter)
-    }
-    
-    init(messageStrategy: LogMessageStrategy, outputStrategies: [LogOutputStrategy], severityFilter: LogSeverityFilter) {
-        self.init(messageStrategies: [messageStrategy], outputStrategies: outputStrategies, severityFilter: severityFilter)
+    init(messageStrategy: LogMessageStrategy, outputStrategies: [(LogOutputStrategy, LogSeverityFilter)]) {
+        var strategies = [LogStrategy]()
+        for output in outputStrategies {
+            strategies.append(LogStrategy(message: messageStrategy, output: output.0, severityFilter: output.1))
+        }
+        self.init(strategies: strategies)
     }
     
     init(messageStrategy: LogMessageStrategy, outputStrategy: LogOutputStrategy, severityFilter: LogSeverityFilter) {
-        self.init(strategies: [LogStrategy(message: messageStrategy, output: outputStrategy, severityFilter: severityFilter)])
+        let strategy = LogStrategy(message: messageStrategy, output: outputStrategy, severityFilter: severityFilter)
+        self.init(strategies: [strategy])
     }
     
 }
