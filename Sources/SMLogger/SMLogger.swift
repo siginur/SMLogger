@@ -21,6 +21,17 @@ public class SMLogger {
         self.init(strategies: [strategy])
     }
     
+    public func fatal(_ message: String, fileName: String = #file, date: Date = Date(), functionName: String = #function, line: Int = #line) {
+        log(
+            .fatal,
+            message: message,
+            date: date,
+            fileName: fileName,
+            functionName: functionName,
+            line: line
+        )
+    }
+    
     public func error(_ error: Error, fileName: String = #file, date: Date = Date(), functionName: String = #function, line: Int = #line) {
         log(
             .error,
@@ -43,17 +54,6 @@ public class SMLogger {
         )
     }
     
-    public func debug(_ message: String, fileName: String = #file, date: Date = Date(), functionName: String = #function, line: Int = #line) {
-        log(
-            .debug,
-            message: message,
-            date: date,
-            fileName: fileName,
-            functionName: functionName,
-            line: line
-        )
-    }
-    
     public func warning(_ message: String, fileName: String = #file, date: Date = Date(), functionName: String = #function, line: Int = #line) {
         log(
             .warning,
@@ -68,6 +68,28 @@ public class SMLogger {
     public func info(_ message: String, fileName: String = #file, date: Date = Date(), functionName: String = #function, line: Int = #line) {
         log(
             .info,
+            message: message,
+            date: date,
+            fileName: fileName,
+            functionName: functionName,
+            line: line
+        )
+    }
+    
+    public func debug(_ message: String, fileName: String = #file, date: Date = Date(), functionName: String = #function, line: Int = #line) {
+        log(
+            .debug,
+            message: message,
+            date: date,
+            fileName: fileName,
+            functionName: functionName,
+            line: line
+        )
+    }
+    
+    public func trace(_ message: String, fileName: String = #file, date: Date = Date(), functionName: String = #function, line: Int = #line) {
+        log(
+            .trace,
             message: message,
             date: date,
             fileName: fileName,
