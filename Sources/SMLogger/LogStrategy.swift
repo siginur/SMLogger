@@ -16,6 +16,7 @@ public protocol LogOutputStrategy {
 }
 
 open class LogStrategy {
+    private let queue = DispatchQueue(label: "com.merkova.smlogger.\(UUID().uuidString)", qos: .utility)
     public let message: LogMessageStrategy
     public let output: LogOutputStrategy
     public let validSeverities: Set<LogSeverity>
@@ -27,8 +28,10 @@ open class LogStrategy {
     }
     
     func perform(severity: LogSeverity, message: String, date: Date, fileName: String, functionName: String, line: Int) {
-        let log = self.message.generateLog(severity: severity, message: message, date: date, fileName: fileName, functionName: functionName, line: line)
-        output.write(log)
+        queue.sync {
+            let log = self.message.generateLog(severity: severity, message: message, date: date, fileName: fileName, functionName: functionName, line: line)
+            output.write(log)
+        }
     }
 }
 
