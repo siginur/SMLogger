@@ -18,7 +18,6 @@ open class FileLogOutputStrategy: LogOutputStrategy {
     }
     
     enum Error: Swift.Error {
-        case wrongURL
         case directoryDoesNotExists
         case unableToCreateLogFile
     }
@@ -34,10 +33,7 @@ open class FileLogOutputStrategy: LogOutputStrategy {
     public let archivePolicy: ArchivePolicy
     
     public init(directory: URL, filename: String, archivePolicy: ArchivePolicy) throws {
-        guard directory.isFileURL == false else {
-            throw Error.wrongURL
-        }
-        guard fileManager.fileExists(atPath: directory.absoluteString) else {
+        guard self.fileManager.directoryExists(directory) else {
             throw Error.directoryDoesNotExists
         }
         
@@ -100,7 +96,7 @@ open class FileLogOutputStrategy: LogOutputStrategy {
     }
     
     private func preapreLogFile() throws {
-        let filePath = self.fileURL.absoluteString
+        let filePath = self.fileURL.path
         if fileManager.fileExists(atPath: filePath) == false {
             guard fileManager.createFile(atPath: filePath, contents: nil, attributes: nil) else {
                 throw Error.unableToCreateLogFile
