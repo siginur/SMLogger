@@ -89,7 +89,14 @@ open class FileLogOutputStrategy: LogOutputStrategy {
         }
         
         let datestamp = DateFormatter(dateFormat: "YYYYMMdd'-'HHmmss").string(from: Date())
-        let archivedFileURL = logsDirectory.appendingPathComponent("\(self.filename)-\(datestamp).log")
+        var archivedFileURL = logsDirectory.appendingPathComponent("\(self.filename)-\(datestamp).log")
+        if self.fileManager.fileExists(atPath: archivedFileURL.path) {
+            var index = 1
+            repeat {
+                index += 1
+                archivedFileURL = logsDirectory.appendingPathComponent("\(self.filename)-\(datestamp)(\(index)).log")
+            } while self.fileManager.fileExists(atPath: archivedFileURL.path)
+        }
         try self.fileManager.moveItem(at: self.fileURL, to: archivedFileURL)
         
         try? self.fileManager.removeItem(at: self.fileURL)
