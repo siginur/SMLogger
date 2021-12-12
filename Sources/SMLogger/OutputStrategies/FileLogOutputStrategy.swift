@@ -50,6 +50,7 @@ open class FileLogOutputStrategy: LogOutputStrategy {
     }
     
     public final func write(_ log: String) {
+        let log = log + "\n"
         guard let data = log.data(using: .utf8) else {
             return
         }
@@ -87,11 +88,11 @@ open class FileLogOutputStrategy: LogOutputStrategy {
             self.fileHandle.closeFile()
         }
         
-        let datestamp = DateFormatter(dateFormat: "YYYYMMddHHmmss").string(from: Date())
+        let datestamp = DateFormatter(dateFormat: "YYYYMMdd'-'HHmmss").string(from: Date())
         let archivedFileURL = logsDirectory.appendingPathComponent("\(self.filename)-\(datestamp).log")
         try self.fileManager.moveItem(at: self.fileURL, to: archivedFileURL)
         
-        try self.fileManager.removeItem(at: self.fileURL)
+        try? self.fileManager.removeItem(at: self.fileURL)
         try preapreLogFile()
     }
     
@@ -112,7 +113,7 @@ open class FileLogOutputStrategy: LogOutputStrategy {
         }
         
         let fileAttributes = (try? self.fileManager.attributesOfItem(atPath: filePath) as [FileAttributeKey:Any]) ?? [:]
-        let creationDate = fileAttributes[FileAttributeKey.size] as? Date ?? Date()
+        let creationDate = fileAttributes[FileAttributeKey.creationDate] as? Date ?? Date()
         self.fileCreationDateComponents = Calendar.current.dateComponents([.year, .month, .day, .weekOfYear], from: creationDate)
         self.fileSize = (fileAttributes[FileAttributeKey.size] as? NSNumber)?.uint64Value ?? 0
     }
