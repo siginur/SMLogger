@@ -14,50 +14,65 @@ public enum LogMessageSegment {
     case lineNumber
     case methodName
     case message
-    case space
+    case tab(count: Int)
+    case space(count: Int)
     case spaces(untilLength: Int)
     case string(String)
+    
+    public static let tab = LogMessageSegment.tab(count: 1)
+    public static let space = LogMessageSegment.space(count: 1)
+    
+    public static func date(format: String) -> LogMessageSegment {
+        return .date(format: DateFormatter(dateFormat: format))
+    }
+    
+    public static func string(format: String, args: CVarArg...) -> LogMessageSegment {
+        return .string(String(format: format, args))
+    }
+    
+    public static func string(_ string: String, minLength: Int, prefix: Character) -> LogMessageSegment {
+        return .string(string.modify(minLength: minLength, prefix: prefix))
+    }
+    
+    public static func string(_ string: String, minLength: Int, suffix: Character) -> LogMessageSegment {
+        return .string(string.modify(minLength: minLength, suffix: suffix))
+    }
+
+    public static func string(_ string: String, maxLength: Int) -> LogMessageSegment {
+        return .string(string.modify(maxLength: maxLength))
+    }
+    
+    public static func string(_ string: String, minLength: Int, prefix: Character, maxLength: Int) -> LogMessageSegment {
+        return .string(string.modify(minLength: minLength, prefix: prefix).modify(maxLength: maxLength))
+    }
+    
+    public static func string(_ string: String, minLength: Int, suffix: Character, maxLength: Int) -> LogMessageSegment {
+        return .string(string.modify(minLength: minLength, suffix: suffix).modify(maxLength: maxLength))
+    }
 }
 
-public typealias LogMessageFormat = [LogMessageSegment]
-
-public extension Array where Element == LogMessageSegment {
-    func message(severity: LogSeverity, message: String, date: Date, fileName: String, functionName: String, line: Int) -> String {
-        var log: String = ""
-        for logPart in self {
-            switch logPart {
-            case .severity:
-                log += severity.rawValue.uppercased()
-            case .date(let format):
-                log += format.string(from: date)
-            case .filename(let componentsCount):
-                if componentsCount > 0 {
-                    var pathComponents = (fileName as NSString).pathComponents
-                    if pathComponents.first == "/" {
-                        pathComponents.removeFirst()
-                    }
-                    pathComponents.removeFirst(Swift.max(pathComponents.count - componentsCount, 0))
-                    log += pathComponents.joined(separator: "/")
-                }
-                else {
-                    log += fileName
-                }
-            case .lineNumber:
-                log += "\(line)"
-            case .methodName:
-                log += functionName
-            case .message:
-                log += message
-            case .space:
-                log += " "
-            case .spaces(let length):
-                while log.count < length {
-                    log += " "
-                }
-            case .string(let string):
-                log += string
-            }
+fileprivate extension String {
+    func modify(minLength: Int, prefix: Character) -> String {
+        var string = self
+        while self.count < minLength {
+            string = String(prefix) + string
         }
-        return log
+        return string
+    }
+    
+    func modify(minLength: Int, suffix: Character) -> String {
+        var string = self
+        while string.count < minLength {
+            string = string + String(suffix)
+        }
+        return string
+    }
+    
+    func modify(maxLength: Int) -> String {
+        var string = self
+        if string.count > maxLength {
+            string.removeLast(string.count - maxLength)
+        }
+        return string
     }
 }
