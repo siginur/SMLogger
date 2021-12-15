@@ -10,7 +10,7 @@ import Foundation
 public typealias LogMessageFormat = [LogMessageSegment]
 
 public extension Array where Element == LogMessageSegment {
-    func message(severity: LogSeverity, message: String, date: Date, fileName: String, functionName: String, line: Int) -> String {
+    func message(severity: LogSeverity, items: [Any], separator: String, terminator: String, date: Date, fileName: String, functionName: String, line: Int, column: Int) -> String {
         var log: String = ""
         for logPart in self {
             switch logPart {
@@ -32,10 +32,12 @@ public extension Array where Element == LogMessageSegment {
                 }
             case .lineNumber:
                 log += "\(line)"
+            case .columnNumber:
+                log += "\(column)"
             case .methodName:
                 log += functionName
             case .message:
-                log += message
+                log += items.map({ String(describing: $0) }).joined(separator: separator) + terminator
             case .space(let count):
                 log += String(repeating: " ", count: count)
             case .spaces(let length):

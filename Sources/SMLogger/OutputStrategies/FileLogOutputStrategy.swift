@@ -50,7 +50,6 @@ open class FileLogOutputStrategy: LogOutputStrategy {
     }
     
     public final func write(_ log: String) {
-        let log = log + "\n"
         guard let data = log.data(using: .utf8) else {
             return
         }

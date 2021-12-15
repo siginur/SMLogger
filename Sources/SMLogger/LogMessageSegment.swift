@@ -12,6 +12,7 @@ public enum LogMessageSegment {
     case date(format: DateFormatter)
     case filename(componentsCount: Int)
     case lineNumber
+    case columnNumber
     case methodName
     case message
     case tab(count: Int)

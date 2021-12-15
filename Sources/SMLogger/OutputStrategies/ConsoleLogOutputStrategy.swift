@@ -12,7 +12,7 @@ open class ConsoleLogOutputStrategy: LogOutputStrategy {
     public init() {}
     
     public final func write(_ log: String) {
-        print(log)
+        print(log, terminator: "")
     }
     
 }

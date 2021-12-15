@@ -8,7 +8,7 @@
 import Foundation
 
 public protocol LogMessageStrategy {
-    func generateLog(severity: LogSeverity, message: String, date: Date, fileName: String, functionName: String, line: Int) -> String
+    func generateLog(severity: LogSeverity, items: [Any], separator: String, terminator: String, date: Date, fileName: String, functionName: String, line: Int, column: Int) -> String
 }
 
 public protocol LogOutputStrategy {
@@ -27,9 +27,9 @@ open class LogStrategy {
         self.validSeverities = severityFilter.validSeverities
     }
     
-    func perform(severity: LogSeverity, message: String, date: Date, fileName: String, functionName: String, line: Int) {
+    func perform(severity: LogSeverity, items: [Any], separator: String, terminator: String, date: Date, fileName: String, functionName: String, line: Int, column: Int) {
         queue.sync {
-            let log = self.message.generateLog(severity: severity, message: message, date: date, fileName: fileName, functionName: functionName, line: line)
+            let log = self.message.generateLog(severity: severity, items: items, separator: separator, terminator: terminator, date: date, fileName: fileName, functionName: functionName, line: line, column: column)
             output.write(log)
         }
     }

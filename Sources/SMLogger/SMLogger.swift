@@ -21,89 +21,152 @@ public class SMLogger {
         self.init(strategies: [strategy])
     }
     
-    public func fatal(_ message: String, fileName: String = #file, date: Date = Date(), functionName: String = #function, line: Int = #line) {
+    // MARK: Fatal
+    
+    public func fatal(_ error: Error, fileName: String = #file, date: Date = Date(), functionName: String = #function, line: Int = #line, column: Int = #column) {
         log(
             .fatal,
-            message: message,
+            items: [error.localizedDescription],
+            separator: "",
+            termiantor: "\n",
             date: date,
             fileName: fileName,
             functionName: functionName,
-            line: line
+            line: line,
+            column: column
         )
     }
     
-    public func error(_ error: Error, fileName: String = #file, date: Date = Date(), functionName: String = #function, line: Int = #line) {
+    public func fatal(_ items: Any..., separator: String = " ", termiantor: String = "\n", fileName: String = #file, date: Date = Date(), functionName: String = #function, line: Int = #line, column: Int = #column) {
+        log(
+            .fatal,
+            items: items,
+            separator: separator,
+            termiantor: termiantor,
+            date: date,
+            fileName: fileName,
+            functionName: functionName,
+            line: line,
+            column: column
+        )
+    }
+    
+    // MARK: Error
+    
+    public func error(_ error: Error, fileName: String = #file, date: Date = Date(), functionName: String = #function, line: Int = #line, column: Int = #column) {
         log(
             .error,
-            message: error.localizedDescription,
+            items: [error.localizedDescription],
+            separator: "",
+            termiantor: "\n",
             date: date,
             fileName: fileName,
             functionName: functionName,
-            line: line
+            line: line,
+            column: column
         )
     }
     
-    public func error(_ message: String, fileName: String = #file, date: Date = Date(), functionName: String = #function, line: Int = #line) {
+    public func error(_ items: Any..., separator: String = " ", termiantor: String = "\n", fileName: String = #file, date: Date = Date(), functionName: String = #function, line: Int = #line, column: Int = #column) {
         log(
             .error,
-            message: message,
+            items: items,
+            separator: separator,
+            termiantor: termiantor,
             date: date,
             fileName: fileName,
             functionName: functionName,
-            line: line
+            line: line,
+            column: column
         )
     }
     
-    public func warning(_ message: String, fileName: String = #file, date: Date = Date(), functionName: String = #function, line: Int = #line) {
+    // MARK: Warning
+    
+    public func warning(_ items: Any..., separator: String = " ", termiantor: String = "\n", fileName: String = #file, date: Date = Date(), functionName: String = #function, line: Int = #line, column: Int = #column) {
         log(
             .warning,
-            message: message,
+            items: items,
+            separator: separator,
+            termiantor: termiantor,
             date: date,
             fileName: fileName,
             functionName: functionName,
-            line: line
+            line: line,
+            column: column
         )
     }
     
-    public func info(_ message: String, fileName: String = #file, date: Date = Date(), functionName: String = #function, line: Int = #line) {
+    public func warning(_ error: Error, fileName: String = #file, date: Date = Date(), functionName: String = #function, line: Int = #line, column: Int = #column) {
+        log(
+            .fatal,
+            items: [error.localizedDescription],
+            separator: "",
+            termiantor: "\n",
+            date: date,
+            fileName: fileName,
+            functionName: functionName,
+            line: line,
+            column: column
+        )
+    }
+    
+    // MARK: Info
+    
+    public func info(_ items: Any..., separator: String = " ", termiantor: String = "\n", fileName: String = #file, date: Date = Date(), functionName: String = #function, line: Int = #line, column: Int = #column) {
         log(
             .info,
-            message: message,
+            items: items,
+            separator: separator,
+            termiantor: termiantor,
             date: date,
             fileName: fileName,
             functionName: functionName,
-            line: line
+            line: line,
+            column: column
         )
     }
     
-    public func debug(_ message: String, fileName: String = #file, date: Date = Date(), functionName: String = #function, line: Int = #line) {
+    // MARK: Debug
+    
+    public func debug(_ items: Any..., separator: String = " ", termiantor: String = "\n", fileName: String = #file, date: Date = Date(), functionName: String = #function, line: Int = #line, column: Int = #column) {
         log(
             .debug,
-            message: message,
+            items: items,
+            separator: separator,
+            termiantor: termiantor,
             date: date,
             fileName: fileName,
             functionName: functionName,
-            line: line
+            line: line,
+            column: column
         )
     }
     
-    public func trace(_ message: String, fileName: String = #file, date: Date = Date(), functionName: String = #function, line: Int = #line) {
+    // MARK: Trace
+    
+    public func trace(_ items: Any..., separator: String = " ", termiantor: String = "\n", fileName: String = #file, date: Date = Date(), functionName: String = #function, line: Int = #line, column: Int = #column) {
         log(
             .trace,
-            message: message,
+            items: items,
+            separator: separator,
+            termiantor: termiantor,
             date: date,
             fileName: fileName,
             functionName: functionName,
-            line: line
+            line: line,
+            column: column
         )
     }
     
-    public func log(_ severity: LogSeverity, message: String, date: Date = Date(), fileName: String = #file, functionName: String = #function, line: Int = #line) {
+    // MARK: Generic log
+    
+    public func log(_ severity: LogSeverity, items: [Any], separator: String, termiantor: String, date: Date = Date(), fileName: String, functionName: String, line: Int, column: Int) {
         strategies.forEach { strategy in
             guard strategy.validSeverities.contains(severity) else {
                 return
             }
-            strategy.perform(severity: severity, message: message, date: date, fileName: fileName, functionName: functionName, line: line)
+            strategy.perform(severity: severity, items: items, separator: separator, terminator: termiantor, date: date, fileName: fileName, functionName: functionName, line: line, column: column)
         }
     }
     
