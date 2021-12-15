@@ -19,9 +19,9 @@ open class JSONLogMessageStrategy: LogMessageStrategy {
         self.init(format: format.mapValues { [$0] })
     }
     
-    public final func generateLog(severity: LogSeverity, items: [Any], separator: String, terminator: String, date: Date, fileName: String, functionName: String, line: Int, column: Int) -> String {
+    public final func generateLog(_ logData: LogData) -> String {
         let log: [String: String] = format.mapValues {
-            $0.message(severity: severity, items: items, separator: separator, terminator: terminator, date: date, fileName: fileName, functionName: functionName, line: line, column: column)
+            $0.message(from: logData)
         }
         guard let json = try? JSONEncoder().encode(log) else {
             return ""

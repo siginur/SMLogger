@@ -10,17 +10,17 @@ import Foundation
 public typealias LogMessageFormat = [LogMessageSegment]
 
 public extension Array where Element == LogMessageSegment {
-    func message(severity: LogSeverity, items: [Any], separator: String, terminator: String, date: Date, fileName: String, functionName: String, line: Int, column: Int) -> String {
+    func message(from logData: LogData) -> String {
         var log: String = ""
         for logPart in self {
             switch logPart {
             case .severity:
-                log += severity.rawValue.uppercased()
+                log += logData.severity.rawValue.uppercased()
             case .date(let format):
-                log += format.string(from: date)
+                log += format.string(from: logData.date)
             case .filename(let componentsCount):
                 if componentsCount > 0 {
-                    var pathComponents = (fileName as NSString).pathComponents
+                    var pathComponents = (logData.fileName as NSString).pathComponents
                     if pathComponents.first == "/" {
                         pathComponents.removeFirst()
                     }
@@ -28,16 +28,16 @@ public extension Array where Element == LogMessageSegment {
                     log += pathComponents.joined(separator: "/")
                 }
                 else {
-                    log += fileName
+                    log += logData.fileName
                 }
             case .lineNumber:
-                log += "\(line)"
+                log += "\(logData.line)"
             case .columnNumber:
-                log += "\(column)"
+                log += "\(logData.column)"
             case .methodName:
-                log += functionName
+                log += logData.functionName
             case .message:
-                log += items.map({ String(describing: $0) }).joined(separator: separator) + terminator
+                log += logData.items.map({ String(describing: $0) }).joined(separator: logData.separator) + logData.terminator
             case .space(let count):
                 log += String(repeating: " ", count: count)
             case .spaces(let length):
