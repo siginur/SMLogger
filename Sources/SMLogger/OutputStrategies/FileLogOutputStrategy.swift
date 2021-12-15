@@ -130,7 +130,7 @@ public extension FileLogOutputStrategy {
     
     static let `default`: FileLogOutputStrategy = {
         let directory = URL(fileURLWithPath: NSTemporaryDirectory(), isDirectory: true)
-        return try! FileLogOutputStrategy(directory: directory, filename: "logs", archivePolicy: .sizeLimit(bytes: 1024 * 1024))
+        return try! FileLogOutputStrategy(directory: directory, filename: "logs_" + UUID().uuidString, archivePolicy: .sizeLimit(bytes: 1024 * 1024))
     }()
     
 }

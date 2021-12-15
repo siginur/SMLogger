@@ -9,7 +9,7 @@ import Foundation
 
 open class StreamLogOutputStrategy: LogOutputStrategy {
     
-    public var stream: TextOutputStream
+    public private(set) var stream: TextOutputStream
     
     public init(stream: TextOutputStream) {
         self.stream = stream
