@@ -1,5 +1,5 @@
 //
-//  NotificationLogOutputStrategy.swift
+//  NotificationLogOutput.swift
 //  
 //
 //  Created by Alexey Siginur on 15/12/2021.
@@ -7,7 +7,7 @@
 
 import Foundation
 
-open class NotificationLogOutputStrategy: LogOutputStrategy {
+open class NotificationLogOutput: LogOutput {
     
     public let notificationCenter: NotificationCenter
     public let notificationName: Notification.Name

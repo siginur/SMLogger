@@ -7,21 +7,21 @@
 
 import Foundation
 
-public protocol LogMessageStrategy {
+public protocol LogMessageFormat {
     func generateLog(_ logData: LogData) -> String
 }
 
-public protocol LogOutputStrategy {
+public protocol LogOutput {
     func write(_ log: String)
 }
 
 open class LogStrategy {
     private let queue = DispatchQueue(label: "com.merkova.smlogger.\(UUID().uuidString)", qos: .utility)
-    public let message: LogMessageStrategy
-    public let output: LogOutputStrategy
+    public let message: LogMessageFormat
+    public let output: LogOutput
     public let validSeverities: Set<LogSeverity>
     
-    public init(message: LogMessageStrategy, output: LogOutputStrategy, severityFilter: LogSeverityFilter = .all) {
+    public init(message: LogMessageFormat, output: LogOutput, severityFilter: LogSeverityFilter = .all) {
         self.message = message
         self.output = output
         self.validSeverities = severityFilter.validSeverities
@@ -36,7 +36,7 @@ open class LogStrategy {
 }
 
 public extension LogStrategy {
-    static let `default` = LogStrategy(message: TextLogMessageStrategy.default, output: ConsoleLogOutputStrategy(), severityFilter: .all)
+    static let `default` = LogStrategy(message: TextLogMessageFormat.default, output: ConsoleLogOutput(), severityFilter: .all)
 }
 
 struct LogStrategyGroup {
@@ -46,7 +46,7 @@ struct LogStrategyGroup {
         self.strategies = strategies
     }
     
-    init(messageStrategy: LogMessageStrategy, outputStrategies: [LogOutputStrategy], severityFilter: LogSeverityFilter) {
+    init(messageStrategy: LogMessageFormat, outputStrategies: [LogOutput], severityFilter: LogSeverityFilter) {
         var strategies = [LogStrategy]()
         for output in outputStrategies {
             strategies.append(LogStrategy(message: messageStrategy, output: output, severityFilter: severityFilter))
@@ -54,7 +54,7 @@ struct LogStrategyGroup {
         self.init(strategies: strategies)
     }
     
-    init(messageStrategy: LogMessageStrategy, outputStrategies: [(LogOutputStrategy, LogSeverityFilter)]) {
+    init(messageStrategy: LogMessageFormat, outputStrategies: [(LogOutput, LogSeverityFilter)]) {
         var strategies = [LogStrategy]()
         for output in outputStrategies {
             strategies.append(LogStrategy(message: messageStrategy, output: output.0, severityFilter: output.1))
@@ -62,7 +62,7 @@ struct LogStrategyGroup {
         self.init(strategies: strategies)
     }
     
-    init(messageStrategy: LogMessageStrategy, outputStrategy: LogOutputStrategy, severityFilter: LogSeverityFilter) {
+    init(messageStrategy: LogMessageFormat, outputStrategy: LogOutput, severityFilter: LogSeverityFilter) {
         let strategy = LogStrategy(message: messageStrategy, output: outputStrategy, severityFilter: severityFilter)
         self.init(strategies: [strategy])
     }

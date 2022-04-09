@@ -1,5 +1,5 @@
 //
-//  FileLogOutputStrategy.swift
+//  FileLogOutput.swift
 //  
 //
 //  Created by Alexey Siginur on 11/12/2021.
@@ -7,7 +7,7 @@
 
 import Foundation
 
-open class FileLogOutputStrategy: LogOutputStrategy {
+open class FileLogOutput: LogOutput {
     
     public enum ArchivePolicy {
         case daily
@@ -126,11 +126,11 @@ open class FileLogOutputStrategy: LogOutputStrategy {
     
 }
 
-public extension FileLogOutputStrategy {
+public extension FileLogOutput {
     
-    static let `default`: FileLogOutputStrategy = {
+    static let `default`: FileLogOutput = {
         let directory = URL(fileURLWithPath: NSTemporaryDirectory(), isDirectory: true)
-        return try! FileLogOutputStrategy(directory: directory, filename: "logs_" + UUID().uuidString, archivePolicy: .sizeLimit(bytes: 1024 * 1024))
+        return try! FileLogOutput(directory: directory, filename: "logs_" + UUID().uuidString, archivePolicy: .sizeLimit(bytes: 1024 * 1024))
     }()
     
 }

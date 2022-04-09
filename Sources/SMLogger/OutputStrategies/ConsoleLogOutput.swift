@@ -1,5 +1,5 @@
 //
-//  ConsoleLogOutputStrategy.swift
+//  ConsoleLogOutput.swift
 //  
 //
 //  Created by Alexey Siginur on 11/12/2021.
@@ -7,7 +7,7 @@
 
 import Foundation
 
-open class ConsoleLogOutputStrategy: LogOutputStrategy {
+open class ConsoleLogOutput: LogOutput {
     
     public init() {}
     

@@ -1,5 +1,5 @@
 //
-//  TextLogMessageStrategy.swift
+//  TextLogMessageFormat.swift
 //  
 //
 //  Created by Alexey Siginur on 11/12/2021.
@@ -7,24 +7,24 @@
 
 import Foundation
 
-open class TextLogMessageStrategy: LogMessageStrategy {
+open class TextLogMessageFormat: LogMessageFormat {
 
-    public let format: LogMessageFormat
+    public let segments: LogMessageSegmentList
     
-    public init(format: LogMessageFormat) {
-        self.format = format
+    public init(segments: LogMessageSegmentList) {
+        self.segments = segments
     }
     
     public final func generateLog(_ logData: LogData) -> String {
-        return format.message(from: logData)
+        return segments.message(from: logData)
     }
     
 }
 
-public extension TextLogMessageStrategy {
+public extension TextLogMessageFormat {
     
-    static let `default`: TextLogMessageStrategy = {
-        TextLogMessageStrategy(format: [
+    static let `default`: TextLogMessageFormat = {
+        TextLogMessageFormat(segments: [
             .string("["),
             .severity,
             .string("]"),

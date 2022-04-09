@@ -1,5 +1,5 @@
 //
-//  JSONLogMessageStrategy.swift
+//  JSONLogMessageFormat.swift
 //  
 //
 //  Created by Alexey Siginur on 11/12/2021.
@@ -7,20 +7,20 @@
 
 import Foundation
 
-open class JSONLogMessageStrategy: LogMessageStrategy {
+open class JSONLogMessageFormat: LogMessageFormat {
 
-    public let format: [String: LogMessageFormat]
+    public let segments: [String: LogMessageSegmentList]
     
-    public init(format: [String: LogMessageFormat]) {
-        self.format = format
+    public init(segments: [String: LogMessageSegmentList]) {
+        self.segments = segments
     }
     
     public convenience init(format: [String: LogMessageSegment]) {
-        self.init(format: format.mapValues { [$0] })
+        self.init(segments: format.mapValues { [$0] })
     }
     
     public final func generateLog(_ logData: LogData) -> String {
-        let log: [String: String] = format.mapValues {
+        let log: [String: String] = segments.mapValues {
             $0.message(from: logData)
         }
         guard let json = try? JSONEncoder().encode(log) else {
@@ -31,10 +31,10 @@ open class JSONLogMessageStrategy: LogMessageStrategy {
     
 }
 
-public extension JSONLogMessageStrategy {
+public extension JSONLogMessageFormat {
     
-    static let `default`: JSONLogMessageStrategy = {
-        JSONLogMessageStrategy(format: [
+    static let `default`: JSONLogMessageFormat = {
+        JSONLogMessageFormat(format: [
             "severity": .severity,
             "date": .date(format: .init(dateFormat: "yyyy-MM-dd HH:mm:ss.SSS")),
             "filename": .filename(componentsCount: 1),
@@ -44,8 +44,8 @@ public extension JSONLogMessageStrategy {
         ])
     }()
     
-    static let `defaultCompact`: JSONLogMessageStrategy = {
-        JSONLogMessageStrategy(format: [
+    static let `defaultCompact`: JSONLogMessageFormat = {
+        JSONLogMessageFormat(format: [
             "s": .severity,
             "d": .date(format: .init(dateFormat: "yyyy-MM-dd HH:mm:ss.SSS")),
             "fn": .filename(componentsCount: 1),

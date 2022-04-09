@@ -1,5 +1,5 @@
 //
-//  StreamLogOutputStrategy.swift
+//  StreamLogOutput.swift
 //  
 //
 //  Created by Alexey Siginur on 11/12/2021.
@@ -7,7 +7,7 @@
 
 import Foundation
 
-open class StreamLogOutputStrategy: LogOutputStrategy {
+open class StreamLogOutput: LogOutput {
     
     public private(set) var stream: TextOutputStream
     

@@ -1,5 +1,5 @@
 //
-//  LogMessageFormat.swift
+//  LogMessageSegmentList.swift
 //  
 //
 //  Created by Alexey Siginur on 14/12/2021.
@@ -7,7 +7,7 @@
 
 import Foundation
 
-public typealias LogMessageFormat = [LogMessageSegment]
+public typealias LogMessageSegmentList = [LogMessageSegment]
 
 public extension Array where Element == LogMessageSegment {
     func message(from logData: LogData) -> String {
