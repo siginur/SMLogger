@@ -15,12 +15,12 @@ public enum LogSeverity: String, CaseIterable, Comparable {
     
     var priority: Int {
         switch self {
-        case .fatal:   return 6
-        case .error:   return 5
-        case .warning: return 4
-        case .info:    return 3
-        case .debug:   return 2
-        case .trace:   return 1
+        case .fatal:   return 1000
+        case .error:   return 800
+        case .warning: return 600
+        case .info:    return 400
+        case .debug:   return 200
+        case .trace:   return 100
         }
     }
     

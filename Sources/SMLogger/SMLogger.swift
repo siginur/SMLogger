@@ -17,7 +17,7 @@ public class SMLogger {
         self.strategyGroup = LogStrategyGroup(strategies: strategies)
     }
     
-    public convenience init(strategy: LogStrategy) {
+    public convenience init(strategy: LogStrategy = .default) {
         self.init(strategies: [strategy])
     }
     
