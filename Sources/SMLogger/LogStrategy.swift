@@ -20,6 +20,7 @@ open class LogStrategy {
     public let message: LogMessageFormat
     public let output: LogOutput
     public let validSeverities: Set<LogSeverity>
+    public var active: Bool = true
     
     public init(message: LogMessageFormat, output: LogOutput, severityFilter: LogSeverityFilter = .all) {
         self.message = message
