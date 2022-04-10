@@ -13,7 +13,6 @@ public struct LogSeverity: Comparable, Hashable {
     static let info = LogSeverity(tag: "info", priority: 400)
     static let debug = LogSeverity(tag: "debug", priority: 200)
     static let trace = LogSeverity(tag: "trace", priority: 100)
-    static let allCases: Set<LogSeverity> = [fatal, error, warning, info, debug, trace]
 
     let tag: String
     let priority: Int
