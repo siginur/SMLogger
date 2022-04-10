@@ -2,6 +2,8 @@
 
 #### [Unreleased](https://github.com/siginur/SMLogger/tree/HEAD)
 [Full changelog](https://github.com/siginur/SMLogger/compare/v1.5.0...HEAD)
+#### News:
+- Add possibility to create custom severity log levels
 
 ## [1.5.0](https://github.com/siginur/SMLogger/tree/v1.5.0) (2022-04-09)
 [Full changelog](https://github.com/siginur/SMLogger/compare/v1.4.0...v1.5.0)

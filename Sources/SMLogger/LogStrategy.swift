@@ -19,13 +19,13 @@ open class LogStrategy {
     private let queue = DispatchQueue(label: "com.merkova.smlogger.\(UUID().uuidString)", qos: .utility)
     public let message: LogMessageFormat
     public let output: LogOutput
-    public let validSeverities: Set<LogSeverity>
+    public let severityFilter: LogSeverityFilter
     public var active: Bool = true
     
     public init(message: LogMessageFormat, output: LogOutput, severityFilter: LogSeverityFilter = .all) {
         self.message = message
         self.output = output
-        self.validSeverities = severityFilter.validSeverities
+        self.severityFilter = severityFilter
     }
     
     func perform(_ logData: LogData) {

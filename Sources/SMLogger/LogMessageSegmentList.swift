@@ -15,7 +15,7 @@ public extension Array where Element == LogMessageSegment {
         for logPart in self {
             switch logPart {
             case .severity:
-                log += logData.severity.rawValue.uppercased()
+                log += logData.severity.tag.uppercased()
             case .date(let format):
                 log += format.string(from: logData.date)
             case .filename(let componentsCount):

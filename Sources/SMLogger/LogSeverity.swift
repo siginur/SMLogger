@@ -5,24 +5,18 @@
 //  Created by Alexey Siginur on 18/08/2020.
 //
 
-public enum LogSeverity: String, CaseIterable, Comparable {
-    case fatal
-    case error
-    case warning = "warn"
-    case info
-    case debug
-    case trace
+public struct LogSeverity: Comparable, Hashable {
     
-    var priority: Int {
-        switch self {
-        case .fatal:   return 1000
-        case .error:   return 800
-        case .warning: return 600
-        case .info:    return 400
-        case .debug:   return 200
-        case .trace:   return 100
-        }
-    }
+    static let fatal = LogSeverity(tag: "fatal", priority: 1000)
+    static let error = LogSeverity(tag: "error", priority: 800)
+    static let warning = LogSeverity(tag: "warn", priority: 600)
+    static let info = LogSeverity(tag: "info", priority: 400)
+    static let debug = LogSeverity(tag: "debug", priority: 200)
+    static let trace = LogSeverity(tag: "trace", priority: 100)
+    static let allCases: Set<LogSeverity> = [fatal, error, warning, info, debug, trace]
+
+    let tag: String
+    let priority: Int
     
     public static func >=(lhs: LogSeverity, rhs: LogSeverity) -> Bool {
         return lhs.priority >= rhs.priority
@@ -31,6 +25,7 @@ public enum LogSeverity: String, CaseIterable, Comparable {
     public static func <(lhs: LogSeverity, rhs: LogSeverity) -> Bool {
         return lhs.priority < rhs.priority
     }
+    
 }
 
 public enum LogSeverityFilter {
@@ -41,20 +36,20 @@ public enum LogSeverityFilter {
     case exclude(Set<LogSeverity>)
     case include(Set<LogSeverity>)
     
-    public var validSeverities: Set<LogSeverity> {
+    public func pass(_ logSeverity: LogSeverity) -> Bool {
         switch self {
         case .all:
-            return Set(LogSeverity.allCases)
+            return true
         case .min(let min):
-            return Set(LogSeverity.allCases.filter { $0 >= min })
+            return logSeverity >= min
         case .max(let max):
-            return Set(LogSeverity.allCases.filter { $0 <= max })
+            return logSeverity <= max
         case .range(let range):
-            return Set(LogSeverity.allCases.filter { range.contains($0) })
+            return range.contains(logSeverity)
         case .exclude(let exclude):
-            return Set(LogSeverity.allCases.filter { !exclude.contains($0) })
+        	return exclude.contains(logSeverity) == false
         case .include(let include):
-            return include
+        	return include.contains(logSeverity) == true
         }
     }
 }

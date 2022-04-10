@@ -339,7 +339,7 @@ public class SMLogger {
     
     private func log(_ logData: LogData) {
         strategies.forEach { strategy in
-            guard strategy.active, strategy.validSeverities.contains(logData.severity) else {
+            guard strategy.active, strategy.severityFilter.pass(logData.severity) else {
                 return
             }
             strategy.perform(logData)

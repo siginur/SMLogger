@@ -59,6 +59,7 @@ By default `SMLogger` uses `.default` strategy that configured with `TextLogMess
 | trace    | TRACE | 100   |
 
 Each log message has it's own severity level, you can filter logs by severity level in `LogStrategy` class.
+Also you can create your own log severity level
 
 ### LogMessageFormat
 `LogMessageFormat` protocol defines a format of your log messages, like date, line number, message etc. <br>
