@@ -59,7 +59,7 @@ By default `SMLogger` uses `.default` strategy that configured with `TextLogMess
 | trace    | TRACE | 100   |
 
 Each log message has it's own severity level, you can filter logs by severity level in `LogStrategy` class.
-Also you can create your own log severity level
+Also you can create your own log severity levels.
 
 ### LogMessageFormat
 `LogMessageFormat` protocol defines a format of your log messages, like date, line number, message etc. <br>
@@ -71,11 +71,12 @@ You can also create your own message format by implementing `LogMessageFormat` p
 
 ### LogOutput
 `LogOutput` protocol defines an output destination of your log messages.
-There are 4 predefined log outputs:
+There are 5 predefined log outputs:
 - `ConsoleLogOutput` prints logs to console. **[default]**
 - `FileLogOutput` save logs into file (can be configured to max number of lines per file or file size).
-- `StreamLogOutput` streams to `TextOutputStream`
-- `NotificationLogOutput` send your logs via `NotificationCenter`
+- `StreamLogOutput` streams to `TextOutputStream`.
+- `NotificationLogOutput` send your logs via `NotificationCenter`.
+- `MemoryLogOutput` store logs in memory.
 
 You can also create your own log outputs by implementing `LogOutput ` protocol.
 

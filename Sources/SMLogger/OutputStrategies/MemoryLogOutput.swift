@@ -9,15 +9,15 @@ import Foundation
 
 open class MemoryLogOutput: LogOutput {
     
-    public private(set) var log: String = ""
+    public private(set) var logs: String = ""
     
     public init() {}
     
     public final func write(_ log: String) {
-        self.log += log
+        logs += log
     }
     
     public func clear() {
-        self.log = ""
+        self.logs = ""
     }
 }
