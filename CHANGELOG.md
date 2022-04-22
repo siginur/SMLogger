@@ -1,7 +1,10 @@
 # Change Log
 
-#### [Unreleased](https://github.com/siginur/SMLogger/tree/HEAD)
-[Full changelog](https://github.com/siginur/SMLogger/compare/v1.5.0...HEAD)
+## [Unreleased](https://github.com/siginur/SMLogger/tree/HEAD)
+[Full changelog](https://github.com/siginur/SMLogger/compare/v1.6.0...HEAD)
+
+## [1.6.0](https://github.com/siginur/SMLogger/tree/v1.6.0) (2022-04-22)
+[Full changelog](https://github.com/siginur/SMLogger/compare/v1.5.0...v1.6.0)
 #### News:
 - Add possibility to create custom severity log levels.
 - Add `MemoryLogOutput`.
