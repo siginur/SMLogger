@@ -48,6 +48,8 @@ public extension Array where Element == LogMessageSegment {
                 log += String(repeating: "\t", count: count)
             case .string(let string):
                 log += string
+            case .extraInfo(let key):
+                log += String(describing: logData.extraInfo[key])
             }
         }
         return log

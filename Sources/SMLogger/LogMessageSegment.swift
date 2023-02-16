@@ -19,6 +19,7 @@ public enum LogMessageSegment {
     case space(count: Int)
     case spaces(untilLength: Int)
     case string(String)
+    case extraInfo(key: String)
     
     public static let tab = LogMessageSegment.tab(count: 1)
     public static let space = LogMessageSegment.space(count: 1)

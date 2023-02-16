@@ -7,7 +7,7 @@
 
 import Foundation
 
-public class SMLogger {
+open class SMLogger {
     
     private let strategyGroup: LogStrategyGroup
 
@@ -23,7 +23,7 @@ public class SMLogger {
     
     // MARK: Fatal
     
-    public func fatal(message: String, error: Error, separator: String = " ", terminator: String = "\n", date: Date = Date(), fileName: String = #file, functionName: String = #function, line: Int = #line, column: Int = #column) {
+    public func fatal(message: String, error: Error, separator: String = " ", terminator: String = "\n", date: Date = Date(), extraInfo: [String: Any] = [:], fileName: String = #file, functionName: String = #function, line: Int = #line, column: Int = #column) {
         let logData = LogData(
             severity: .fatal,
             items: [message, error.localizedDescription],
@@ -33,12 +33,13 @@ public class SMLogger {
             fileName: fileName,
             functionName: functionName,
             line: line,
-            column: column
+            column: column,
+            extraInfo: extraInfo
         )
         self.log(logData)
     }
     
-    public func fatal(error: Error, terminator: String = "\n", date: Date = Date(), fileName: String = #file, functionName: String = #function, line: Int = #line, column: Int = #column) {
+    public func fatal(error: Error, terminator: String = "\n", date: Date = Date(), extraInfo: [String: Any] = [:], fileName: String = #file, functionName: String = #function, line: Int = #line, column: Int = #column) {
         let logData = LogData(
             severity: .fatal,
             items: [error.localizedDescription],
@@ -48,12 +49,13 @@ public class SMLogger {
             fileName: fileName,
             functionName: functionName,
             line: line,
-            column: column
+            column: column,
+            extraInfo: extraInfo
         )
         self.log(logData)
     }
     
-    public func fatal(_ items: Any..., separator: String = " ", terminator: String = "\n", date: Date = Date(), fileName: String = #file, functionName: String = #function, line: Int = #line, column: Int = #column) {
+    public func fatal(_ items: Any..., separator: String = " ", terminator: String = "\n", date: Date = Date(), extraInfo: [String: Any] = [:], fileName: String = #file, functionName: String = #function, line: Int = #line, column: Int = #column) {
         let logData = LogData(
             severity: .fatal,
             items: items,
@@ -63,12 +65,13 @@ public class SMLogger {
             fileName: fileName,
             functionName: functionName,
             line: line,
-            column: column
+            column: column,
+            extraInfo: extraInfo
         )
         self.log(logData)
     }
     
-    public func fatal(format: String, _ arguments: CVarArg..., terminator: String = "\n", date: Date = Date(), fileName: String = #file, functionName: String = #function, line: Int = #line, column: Int = #column) {
+    public func fatal(format: String, _ arguments: CVarArg..., terminator: String = "\n", date: Date = Date(), extraInfo: [String: Any] = [:], fileName: String = #file, functionName: String = #function, line: Int = #line, column: Int = #column) {
         let logData = LogData(
             severity: .fatal,
             items: [String(format: format, arguments: arguments)],
@@ -78,14 +81,15 @@ public class SMLogger {
             fileName: fileName,
             functionName: functionName,
             line: line,
-            column: column
+            column: column,
+            extraInfo: extraInfo
         )
         self.log(logData)
     }
     
     // MARK: Error
     
-    public func error(message: String, error: Error, separator: String = " ", terminator: String = "\n", date: Date = Date(), fileName: String = #file, functionName: String = #function, line: Int = #line, column: Int = #column) {
+    public func error(message: String, error: Error, separator: String = " ", terminator: String = "\n", date: Date = Date(), extraInfo: [String: Any] = [:], fileName: String = #file, functionName: String = #function, line: Int = #line, column: Int = #column) {
         let logData = LogData(
             severity: .error,
             items: [message, error.localizedDescription],
@@ -95,12 +99,13 @@ public class SMLogger {
             fileName: fileName,
             functionName: functionName,
             line: line,
-            column: column
+            column: column,
+            extraInfo: extraInfo
         )
         self.log(logData)
     }
     
-    public func error(error: Error, terminator: String = "\n", date: Date = Date(), fileName: String = #file, functionName: String = #function, line: Int = #line, column: Int = #column) {
+    public func error(error: Error, terminator: String = "\n", date: Date = Date(), extraInfo: [String: Any] = [:], fileName: String = #file, functionName: String = #function, line: Int = #line, column: Int = #column) {
         let logData = LogData(
             severity: .error,
             items: [error.localizedDescription],
@@ -110,12 +115,13 @@ public class SMLogger {
             fileName: fileName,
             functionName: functionName,
             line: line,
-            column: column
+            column: column,
+            extraInfo: extraInfo
         )
         self.log(logData)
     }
     
-    public func error(_ items: Any..., separator: String = " ", terminator: String = "\n", date: Date = Date(), fileName: String = #file, functionName: String = #function, line: Int = #line, column: Int = #column) {
+    public func error(_ items: Any..., separator: String = " ", terminator: String = "\n", date: Date = Date(), extraInfo: [String: Any] = [:], fileName: String = #file, functionName: String = #function, line: Int = #line, column: Int = #column) {
         let logData = LogData(
             severity: .error,
             items: items,
@@ -125,12 +131,13 @@ public class SMLogger {
             fileName: fileName,
             functionName: functionName,
             line: line,
-            column: column
+            column: column,
+            extraInfo: extraInfo
         )
         self.log(logData)
     }
     
-    public func error(format: String, _ arguments: CVarArg..., terminator: String = "\n", date: Date = Date(), fileName: String = #file, functionName: String = #function, line: Int = #line, column: Int = #column) {
+    public func error(format: String, _ arguments: CVarArg..., terminator: String = "\n", date: Date = Date(), extraInfo: [String: Any] = [:], fileName: String = #file, functionName: String = #function, line: Int = #line, column: Int = #column) {
         let logData = LogData(
             severity: .error,
             items: [String(format: format, arguments: arguments)],
@@ -140,14 +147,15 @@ public class SMLogger {
             fileName: fileName,
             functionName: functionName,
             line: line,
-            column: column
+            column: column,
+            extraInfo: extraInfo
         )
         self.log(logData)
     }
     
     // MARK: Warning
     
-    public func warning(message: String, error: Error, separator: String = " ", terminator: String = "\n", date: Date = Date(), fileName: String = #file, functionName: String = #function, line: Int = #line, column: Int = #column) {
+    public func warning(message: String, error: Error, separator: String = " ", terminator: String = "\n", date: Date = Date(), extraInfo: [String: Any] = [:], fileName: String = #file, functionName: String = #function, line: Int = #line, column: Int = #column) {
         let logData = LogData(
             severity: .fatal,
             items: [message, error.localizedDescription],
@@ -157,12 +165,13 @@ public class SMLogger {
             fileName: fileName,
             functionName: functionName,
             line: line,
-            column: column
+            column: column,
+            extraInfo: extraInfo
         )
         self.log(logData)
     }
     
-    public func warning(error: Error, terminator: String = "\n", date: Date = Date(), fileName: String = #file, functionName: String = #function, line: Int = #line, column: Int = #column) {
+    public func warning(error: Error, terminator: String = "\n", date: Date = Date(), extraInfo: [String: Any] = [:], fileName: String = #file, functionName: String = #function, line: Int = #line, column: Int = #column) {
         let logData = LogData(
             severity: .fatal,
             items: [error.localizedDescription],
@@ -172,12 +181,13 @@ public class SMLogger {
             fileName: fileName,
             functionName: functionName,
             line: line,
-            column: column
+            column: column,
+            extraInfo: extraInfo
         )
         self.log(logData)
     }
     
-    public func warning(_ items: Any..., separator: String = " ", terminator: String = "\n", date: Date = Date(), fileName: String = #file, functionName: String = #function, line: Int = #line, column: Int = #column) {
+    public func warning(_ items: Any..., separator: String = " ", terminator: String = "\n", date: Date = Date(), extraInfo: [String: Any] = [:], fileName: String = #file, functionName: String = #function, line: Int = #line, column: Int = #column) {
         let logData = LogData(
             severity: .warning,
             items: items,
@@ -187,12 +197,13 @@ public class SMLogger {
             fileName: fileName,
             functionName: functionName,
             line: line,
-            column: column
+            column: column,
+            extraInfo: extraInfo
         )
         self.log(logData)
     }
     
-    public func warning(format: String, _ arguments: CVarArg..., terminator: String = "\n", date: Date = Date(), fileName: String = #file, functionName: String = #function, line: Int = #line, column: Int = #column) {
+    public func warning(format: String, _ arguments: CVarArg..., terminator: String = "\n", date: Date = Date(), extraInfo: [String: Any] = [:], fileName: String = #file, functionName: String = #function, line: Int = #line, column: Int = #column) {
         let logData = LogData(
             severity: .warning,
             items: [String(format: format, arguments: arguments)],
@@ -202,14 +213,15 @@ public class SMLogger {
             fileName: fileName,
             functionName: functionName,
             line: line,
-            column: column
+            column: column,
+            extraInfo: extraInfo
         )
         self.log(logData)
     }
     
     // MARK: Info
     
-    public func info(_ items: Any..., separator: String = " ", terminator: String = "\n", date: Date = Date(), fileName: String = #file, functionName: String = #function, line: Int = #line, column: Int = #column) {
+    public func info(_ items: Any..., separator: String = " ", terminator: String = "\n", date: Date = Date(), extraInfo: [String: Any] = [:], fileName: String = #file, functionName: String = #function, line: Int = #line, column: Int = #column) {
         let logData = LogData(
             severity: .info,
             items: items,
@@ -219,12 +231,13 @@ public class SMLogger {
             fileName: fileName,
             functionName: functionName,
             line: line,
-            column: column
+            column: column,
+            extraInfo: extraInfo
         )
         self.log(logData)
     }
     
-    public func info(format: String, _ arguments: CVarArg..., terminator: String = "\n", date: Date = Date(), fileName: String = #file, functionName: String = #function, line: Int = #line, column: Int = #column) {
+    public func info(format: String, _ arguments: CVarArg..., terminator: String = "\n", date: Date = Date(), extraInfo: [String: Any] = [:], fileName: String = #file, functionName: String = #function, line: Int = #line, column: Int = #column) {
         let logData = LogData(
             severity: .info,
             items: [String(format: format, arguments: arguments)],
@@ -234,14 +247,15 @@ public class SMLogger {
             fileName: fileName,
             functionName: functionName,
             line: line,
-            column: column
+            column: column,
+            extraInfo: extraInfo
         )
         self.log(logData)
     }
     
     // MARK: Debug
     
-    public func debug(_ items: Any..., separator: String = " ", terminator: String = "\n", date: Date = Date(), fileName: String = #file, functionName: String = #function, line: Int = #line, column: Int = #column) {
+    public func debug(_ items: Any..., separator: String = " ", terminator: String = "\n", date: Date = Date(), extraInfo: [String: Any] = [:], fileName: String = #file, functionName: String = #function, line: Int = #line, column: Int = #column) {
         let logData = LogData(
             severity: .debug,
             items: items,
@@ -251,12 +265,13 @@ public class SMLogger {
             fileName: fileName,
             functionName: functionName,
             line: line,
-            column: column
+            column: column,
+            extraInfo: extraInfo
         )
         self.log(logData)
     }
     
-    public func debug(format: String, _ arguments: CVarArg..., terminator: String = "\n", date: Date = Date(), fileName: String = #file, functionName: String = #function, line: Int = #line, column: Int = #column) {
+    public func debug(format: String, _ arguments: CVarArg..., terminator: String = "\n", date: Date = Date(), extraInfo: [String: Any] = [:], fileName: String = #file, functionName: String = #function, line: Int = #line, column: Int = #column) {
         let logData = LogData(
             severity: .debug,
             items: [String(format: format, arguments: arguments)],
@@ -266,14 +281,15 @@ public class SMLogger {
             fileName: fileName,
             functionName: functionName,
             line: line,
-            column: column
+            column: column,
+            extraInfo: extraInfo
         )
         self.log(logData)
     }
     
     // MARK: Trace
     
-    public func trace(_ items: Any..., separator: String = " ", terminator: String = "\n", date: Date = Date(), fileName: String = #file, functionName: String = #function, line: Int = #line, column: Int = #column) {
+    public func trace(_ items: Any..., separator: String = " ", terminator: String = "\n", date: Date = Date(), extraInfo: [String: Any] = [:], fileName: String = #file, functionName: String = #function, line: Int = #line, column: Int = #column) {
         let logData = LogData(
             severity: .trace,
             items: items,
@@ -283,12 +299,13 @@ public class SMLogger {
             fileName: fileName,
             functionName: functionName,
             line: line,
-            column: column
+            column: column,
+            extraInfo: extraInfo
         )
         self.log(logData)
     }
     
-    public func trace(format: String, _ arguments: CVarArg..., terminator: String = "\n", date: Date = Date(), fileName: String = #file, functionName: String = #function, line: Int = #line, column: Int = #column) {
+    public func trace(format: String, _ arguments: CVarArg..., terminator: String = "\n", date: Date = Date(), extraInfo: [String: Any] = [:], fileName: String = #file, functionName: String = #function, line: Int = #line, column: Int = #column) {
         let logData = LogData(
             severity: .trace,
             items: [String(format: format, arguments: arguments)],
@@ -298,14 +315,15 @@ public class SMLogger {
             fileName: fileName,
             functionName: functionName,
             line: line,
-            column: column
+            column: column,
+            extraInfo: extraInfo
         )
         self.log(logData)
     }
     
     // MARK: Generic log
     
-    public func log(_ severity: LogSeverity, items: Any..., separator: String = " ", terminator: String = "\n", date: Date = Date(), fileName: String = #file, functionName: String = #function, line: Int = #line, column: Int = #column) {
+    public func log(_ severity: LogSeverity, items: Any..., separator: String = " ", terminator: String = "\n", date: Date = Date(), extraInfo: [String: Any] = [:], fileName: String = #file, functionName: String = #function, line: Int = #line, column: Int = #column) {
         let logData = LogData(
             severity: severity,
             items: items,
@@ -315,12 +333,13 @@ public class SMLogger {
             fileName: fileName,
             functionName: functionName,
             line: line,
-            column: column
+            column: column,
+            extraInfo: extraInfo
         )
         self.log(logData)
     }
     
-    public func log(_ severity: LogSeverity, format: String, _ arguments: CVarArg..., terminator: String = "\n", date: Date = Date(), fileName: String = #file, functionName: String = #function, line: Int = #line, column: Int = #column) {
+    public func log(_ severity: LogSeverity, format: String, _ arguments: CVarArg..., terminator: String = "\n", date: Date = Date(), extraInfo: [String: Any] = [:], fileName: String = #file, functionName: String = #function, line: Int = #line, column: Int = #column) {
         let logData = LogData(
             severity: severity,
             items: [String(format: format, arguments: arguments)],
@@ -330,19 +349,19 @@ public class SMLogger {
             fileName: fileName,
             functionName: functionName,
             line: line,
-            column: column
+            column: column,
+            extraInfo: extraInfo
         )
         self.log(logData)
     }
     
     // MARK: - Private method
     
-    private func log(_ logData: LogData) {
+    public func log(_ logData: LogData) {
         strategies.forEach { strategy in
-            guard strategy.active, strategy.severityFilter.pass(logData.severity) else {
-                return
+            if strategy.shouldPerform(logData) {
+            	strategy.perform(logData)
             }
-            strategy.perform(logData)
         }
     }
     

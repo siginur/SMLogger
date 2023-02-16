@@ -7,12 +7,12 @@
 
 public struct LogSeverity: Comparable, Hashable {
     
-    static let fatal = LogSeverity(tag: "fatal", priority: 1000)
-    static let error = LogSeverity(tag: "error", priority: 800)
-    static let warning = LogSeverity(tag: "warn", priority: 600)
-    static let info = LogSeverity(tag: "info", priority: 400)
-    static let debug = LogSeverity(tag: "debug", priority: 200)
-    static let trace = LogSeverity(tag: "trace", priority: 100)
+    public static let fatal = LogSeverity(tag: "fatal", priority: 1000)
+    public static let error = LogSeverity(tag: "error", priority: 800)
+    public static let warning = LogSeverity(tag: "warn", priority: 600)
+    public static let info = LogSeverity(tag: "info", priority: 400)
+    public static let debug = LogSeverity(tag: "debug", priority: 200)
+    public static let trace = LogSeverity(tag: "trace", priority: 100)
 
     let tag: String
     let priority: Int

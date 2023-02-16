@@ -28,6 +28,10 @@ open class LogStrategy {
         self.severityFilter = severityFilter
     }
     
+    open func shouldPerform(_ logData: LogData) -> Bool {
+        return active && severityFilter.pass(logData.severity)
+    }
+    
     func perform(_ logData: LogData) {
         queue.sync {
             let log = self.message.generateLog(logData)

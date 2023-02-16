@@ -1,7 +1,13 @@
 # Change Log
 
 ## [Unreleased](https://github.com/siginur/SMLogger/tree/HEAD)
-[Full changelog](https://github.com/siginur/SMLogger/compare/v1.6.0...HEAD)
+[Full changelog](https://github.com/siginur/SMLogger/compare/v1.7.0...HEAD)
+
+## [1.7.0](https://github.com/siginur/SMLogger/tree/v1.7.0) (2023-02-16)
+[Full changelog](https://github.com/siginur/SMLogger/compare/v1.6.0...v1.7.0)
+#### News:
+- Add overridable `shouldPerform` method in `LogStrategy` class. 
+- Add `extraInfo` parameter for all log methods.
 
 ## [1.6.0](https://github.com/siginur/SMLogger/tree/v1.6.0) (2022-04-22)
 [Full changelog](https://github.com/siginur/SMLogger/compare/v1.5.0...v1.6.0)
